@@ -19,11 +19,8 @@ export class InicialComponent implements OnInit {
   }
 
   completeTask(id: string) {
-    for(let tarefa of this.tarefas) {
-      if(tarefa.id == id) {
-        tarefa.concluido = !tarefa.concluido;
-      }
-    }
+    this.tarefaService.completeTask(id);
+    this.tarefas = this.tarefaService.listarTodos();
   }
 
   removerId(tarefaId: string){

@@ -60,6 +60,17 @@ export class TarefaService {
   }
 
 
+  completeTask(id: string) {
+    const tarefas = this.listarTodos();
+    for(let tarefa of tarefas) {
+      if(tarefa.id == id) {
+        tarefa.concluido = !tarefa.concluido;
+      }
+    }
+    this.persistir(tarefas);
+  }
+
+
   private persistir(tarefas: Tarefa[]){
     localStorage['tarefas'] = JSON.stringify(tarefas);
   }
