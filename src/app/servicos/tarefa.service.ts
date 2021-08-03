@@ -1,6 +1,7 @@
 
 import { Injectable } from '@angular/core';
 import { Tarefa } from '../models/tarefa.model';
+import { Ordenacao } from '../utils/ordenacao.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ export class TarefaService {
 
   constructor() { }
 
-  listarTodos(): Tarefa[]{
+  listarTodos(ordem = Ordenacao.ASC): Tarefa[]{
     return JSON.parse(localStorage['tarefas'] || '[]');
   }
 
