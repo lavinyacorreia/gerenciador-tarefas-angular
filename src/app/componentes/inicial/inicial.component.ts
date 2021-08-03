@@ -10,6 +10,7 @@ import { TarefaService } from 'src/app/servicos/tarefa.service';
 export class InicialComponent implements OnInit {
 
   tarefas: Tarefa[]=[];
+  tarefaId: string = '';
   
   constructor(private tarefaService: TarefaService) { }
 
@@ -25,4 +26,12 @@ export class InicialComponent implements OnInit {
     }
   }
 
+  removerId(tarefaId: string){
+      this.tarefaId = tarefaId;
+  }
+
+  remover() {
+    this.tarefaService.remover(this.tarefaId);
+    this.tarefas = this.tarefaService.listarTodos();
+  }
 }

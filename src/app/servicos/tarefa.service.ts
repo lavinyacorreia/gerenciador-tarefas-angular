@@ -48,4 +48,17 @@ export class TarefaService {
     this.tarefas[index].nome = tarefa.nome;
   }
 
+
+  remover(tarefaId: string){
+    this.tarefas = this.tarefas.filter(tarefa => tarefa.id !== tarefaId);
+  }
+
+  //Outra forma de remover
+  remover2(tarefaId: string) {
+    const index = this.tarefas.findIndex(t => t.id === tarefaId);
+    this.tarefas.splice(index, 1);
+  }
+
+  
+
 }
