@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import { Tarefa } from '../models/tarefa.model';
 
@@ -6,35 +7,29 @@ import { Tarefa } from '../models/tarefa.model';
 })
 export class TarefaService {
 
-  tarefas = [
-    new Tarefa("1", "Angular", false),
-    new Tarefa("2", "Prova de PI", true),
-    new Tarefa("3", "Estudar Java", false),
-    new Tarefa("4", "Treinar", true),
-    new Tarefa("5", "Ler Sapiens", false) 
-  ];
-
   constructor() { }
 
   listarTodos(): Tarefa[]{
-    return this.tarefas;
+    return JSON.parse(localStorage['tarefas'] || '[]');
   }
 
   adicionar(tarefa: Tarefa) {
     tarefa.id = new Date().getTime().toString();
     tarefa.concluido = false;
-    this.tarefas.push(tarefa);
+    const tarefas = this.listarTodos();
+    tarefas.push(tarefa);
+    this.persistir(tarefas);
   }
 
   listarId(id: string): Tarefa {
-    const tarefa = this.tarefas.find(tarefa => tarefa.id === id);
+    const tarefa = this.listarTodos().find(tarefa => tarefa.id === id);
     if (!tarefa) {
       return new Tarefa('', '', false);
     }
     return tarefa;
   }
   editar(tarefa: Tarefa) {
-    this.tarefas = this.tarefas.map(t => {
+    const tarefas = this.listarTodos().map(t => {
       if (tarefa.id === t.id) {
         t.nome = tarefa.nome;
       }
@@ -44,21 +39,29 @@ export class TarefaService {
 
 // Outra forma de fazer:
   editar2(tarefa: Tarefa) {
-    const index = this.tarefas.findIndex(t => t.id === tarefa.id);
-    this.tarefas[index].nome = tarefa.nome;
+    const tarefas = this.listarTodos();
+    const index = tarefas.findIndex(t => t.id === tarefa.id);
+    tarefas[index].nome = tarefa.nome;
+    this.persistir(tarefas);
   }
 
 
   remover(tarefaId: string){
-    this.tarefas = this.tarefas.filter(tarefa => tarefa.id !== tarefaId);
+    const tarefas = this.listarTodos().filter(tarefa => tarefa.id !== tarefaId);
+    this.persistir(tarefas);
   }
 
   //Outra forma de remover
   remover2(tarefaId: string) {
-    const index = this.tarefas.findIndex(t => t.id === tarefaId);
-    this.tarefas.splice(index, 1);
+    const tarefas = this.listarTodos();
+    const index = tarefas.findIndex(t => t.id === tarefaId);
+    tarefas.splice(index, 1);
+    this.persistir(tarefas);
   }
 
-  
+
+  private persistir(tarefas: Tarefa[]){
+    localStorage['tarefas'] = JSON.stringify(tarefas);
+  }
 
 }
