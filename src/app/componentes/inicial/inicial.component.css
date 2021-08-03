@@ -1,0 +1,10 @@
+.concluido{
+    text-decoration: line-through;
+}
+
+button{
+    width: 100px;
+}
+th:first-child {
+    width: 60%;
+  }

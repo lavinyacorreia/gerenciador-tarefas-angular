@@ -1,0 +1,40 @@
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Tarefa</th>
+        <th scope="col">Concluída</th>
+        <th scope="col" class="text-center"><button type="button" class="btn btn-success" [routerLink]="['/cadastrar']"><i class="bi bi-plus-circle"></i> Novo</button></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let tarefa of tarefas">
+        <td [ngClass]= "{'table-success': tarefa.concluido == false, concluido: tarefa.concluido}">{{ tarefa.nome }}</td>
+
+        <td>
+            <div class="form-check form-switch">
+              <input
+              class="form-check-input"
+              type="checkbox"
+              [checked]="tarefa.concluido"
+              (click)="completeTask(tarefa.id)"
+                />
+            </div>
+        </td>
+        <td class="text-center">
+            <button
+                type="button"
+                class="btn btn-primary btn-sm"
+                [routerLink]="['/editar/'+tarefa.id]"
+            >
+            <i class="bi bi-pencil-fill"></i> 
+            Editar
+            </button>
+            &nbsp;
+            <button type="button" class="btn btn-danger btn-sm">
+              <i class="bi bi-x-lg"></i>
+              Remover
+            </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>

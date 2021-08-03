@@ -1,0 +1,67 @@
+<form [formGroup]="form" class="row g-3 mt-2 needs-validation" class="fundo_form" novalidate>
+    <h1>Cadastro de tarefas</h1>
+    <div class="col-12 mb-3">
+        <input type="text" id="nome" formControlName="nome" class="form-control" [ngClass]="cssValidacao('nome')"
+            placeholder="Digite a tarefa..." />
+
+        <span class="invalid-feedback" *ngIf="form.controls.nome.touched && form.controls.nome.errors?.required">Digite
+            a tarefa.</span>
+        <span class="invalid-feedback" *ngIf="form.controls.nome.touched && form.controls.nome.errors?.minLength">Digite
+            5 ou mais caracteres.</span>
+    </div><br>
+    <div class="col-12 mb-3">
+        <button
+      type="button"
+      class="btn btn-success"
+      (click)="editar()"
+      [disabled]="form.invalid"
+      data-bs-toggle="modal"
+      data-bs-target="#modalTarefa"
+    >
+      <i class="bi bi-plus-lg"></i>
+      Salvar
+      
+    </button>
+        <button type="button" class="btn btn-secondary" [routerLink]="['/']">
+            <i class="bi bi-arrow-left"></i>
+            Voltar
+        </button>
+    </div>
+</form>
+
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="modalTarefa"
+  tabindex="-1"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTarefaLabel">Edição de tarefa</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">Tarefa editada com sucesso!</div>
+      <div class="modal-footer">
+        
+        <button
+          type="button"
+          class="btn btn-info"
+          data-bs-dismiss="modal"
+          [routerLink]="['']"
+        >
+          Listar tarefas
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
