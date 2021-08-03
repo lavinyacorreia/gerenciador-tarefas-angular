@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Tarefa } from 'src/app/models/tarefa.model';
 import { TarefaService } from 'src/app/servicos/tarefa.service';
+import { cssValidacaoForm } from 'src/app/utils/css.util';
 
 @Component({
   selector: 'app-editar',
@@ -40,11 +41,7 @@ export class EditarComponent implements OnInit {
 
 
   cssValidacao(campo: string) {
-    const control = this.form.controls[campo];
-    if (control.touched) {
-      return control.errors ? 'is-invalid' : 'is-valid';
-    }
-    return '';
+    return cssValidacaoForm(this.form.controls[campo]);
   }
 
 }

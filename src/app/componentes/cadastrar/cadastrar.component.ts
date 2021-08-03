@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Tarefa } from 'src/app/models/tarefa.model';
 import { TarefaService } from 'src/app/servicos/tarefa.service';
+import { cssValidacaoForm } from 'src/app/utils/css.util';
 
 @Component({
   selector: 'app-cadastrar',
@@ -29,11 +30,7 @@ export class CadastrarComponent implements OnInit {
   }
 
   cssValidacao(campo: string) {
-    const control = this.form.controls[campo];
-    if (control.touched) {
-      return control.errors ? 'is-invalid' : 'is-valid';
-    }
-    return '';
+    return cssValidacaoForm(this.form.controls[campo]);
   }
 
 }
