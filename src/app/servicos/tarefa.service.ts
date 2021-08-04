@@ -8,19 +8,30 @@ import { Ordenacao } from '../utils/ordenacao.enum';
 })
 export class TarefaService {
 
-  constructor() { }
+  private readonly TOTAL_ELEM_PAG = 3;
 
-  listarTodos(ordem = Ordenacao.ASC): Tarefa[] {
-    const tarefas = JSON.parse(localStorage['tarefas'] || '[]');
-    if (ordem === Ordenacao.ASC) {
-      tarefas.sort((t1: Tarefa, t2: Tarefa) => {
-        return t1.nome.localeCompare(t2.nome);
-      });
-    } else {
-      tarefas.sort((t1: Tarefa, t2: Tarefa) => {
-        return t2.nome.localeCompare(t1.nome);
-      });
+  constructor() { }
+  listarTodos(): Tarefa[] {
+    return  JSON.parse(localStorage['tarefas'] || '[]');
+  }
+  
+  listarPaginado(ordem = Ordenacao.ASC, filtro = '', pagina = 0): Tarefa[] {
+    let tarefas = JSON.parse(localStorage['tarefas'] || '[]');
+    //filtro
+    if (filtro !== '') {
+      tarefas = tarefas.filter((tarefa: Tarefa) =>
+        //tarefa.nome.toLowerCase().includes(filtro.toLowerCase()));
+        tarefa.nome.toLowerCase().startsWith(filtro.toLowerCase()));
     }
+    //ordenação
+    if (ordem === Ordenacao.ASC) {
+      tarefas.sort((t1: Tarefa, t2: Tarefa) => t1.nome.localeCompare(t2.nome));
+    } else {
+      tarefas.sort((t1: Tarefa, t2: Tarefa) => t2.nome.localeCompare(t1.nome));
+    }
+    //paginação
+    const indice = pagina * this.TOTAL_ELEM_PAG;
+    tarefas = tarefas.slice(indice, indice + this.TOTAL_ELEM_PAG);
     return tarefas;
   }
 
@@ -56,7 +67,6 @@ export class TarefaService {
     this.persistir(tarefas);
   }
 
-
   remover(tarefaId: string){
     const tarefas = this.listarTodos().filter(tarefa => tarefa.id !== tarefaId);
     this.persistir(tarefas);
@@ -71,7 +81,7 @@ export class TarefaService {
   }
 
 
-  completeTask(id: string) {
+  concluir(id: string) {
     const tarefas = this.listarTodos();
     for(let tarefa of tarefas) {
       if(tarefa.id == id) {
@@ -79,6 +89,10 @@ export class TarefaService {
       }
     }
     this.persistir(tarefas);
+  }
+
+  numeroPaginas() {
+    return Math.ceil(this.listarTodos().length / this.TOTAL_ELEM_PAG);
   }
 
 

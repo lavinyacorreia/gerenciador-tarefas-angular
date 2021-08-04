@@ -9,3 +9,13 @@
 .ordenar-tarefa{
     cursor: pointer;
 }
+
+#div-input {
+    display: flex;
+    justify-content: flex-end;
+
+}
+
+#search-field {
+    width: 40%;
+}
