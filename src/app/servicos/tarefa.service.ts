@@ -10,8 +10,18 @@ export class TarefaService {
 
   constructor() { }
 
-  listarTodos(ordem = Ordenacao.ASC): Tarefa[]{
-    return JSON.parse(localStorage['tarefas'] || '[]');
+  listarTodos(ordem = Ordenacao.ASC): Tarefa[] {
+    const tarefas = JSON.parse(localStorage['tarefas'] || '[]');
+    if (ordem === Ordenacao.ASC) {
+      tarefas.sort((t1: Tarefa, t2: Tarefa) => {
+        return t1.nome.localeCompare(t2.nome);
+      });
+    } else {
+      tarefas.sort((t1: Tarefa, t2: Tarefa) => {
+        return t2.nome.localeCompare(t1.nome);
+      });
+    }
+    return tarefas;
   }
 
   adicionar(tarefa: Tarefa) {
