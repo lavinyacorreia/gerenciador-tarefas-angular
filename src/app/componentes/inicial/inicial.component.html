@@ -61,15 +61,26 @@
 <!-- Paginação -->
 <nav>
   <ul class="pagination justify-content-center">
-    <a class="page-link" (click)="paginar($event, 0)">
-      <span aria-hidden="true">«</span>
-    </a>
-
-    <li class="page-item" *ngFor="let pag of obterPaginas()">
+    <li 
+    class="page-item" 
+    [ngClass]="{ disabled: pagina === 0 }"
+    >
+      <a class="page-link" (click)="paginar($event, 0)">
+        <span aria-hidden="true">«</span>
+      </a>
+    </li>
+    
+    <li class="page-item" 
+    *ngFor="let pag of obterPaginas()"
+    [ngClass]="{ active: pag === pagina }"
+    >
       <a class="page-link" (click)="paginar($event, pag)">{{ pag + 1 }}</a>
     </li>
 
-    <li class="page-item">
+    <li 
+    class="page-item" 
+    [ngClass]="{ disabled: pagina === numeroPaginas() - 1 }"
+    >
       <a class="page-link" (click)="paginar($event, numeroPaginas() - 1)">
         <span aria-hidden="true">»</span>
       </a>

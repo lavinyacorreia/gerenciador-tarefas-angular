@@ -18,11 +18,7 @@ export class TarefaService {
   listarPaginado(ordem = Ordenacao.ASC, filtro = '', pagina = 0): Tarefa[] {
     let tarefas = JSON.parse(localStorage['tarefas'] || '[]');
     //filtro
-    if (filtro !== '') {
-      tarefas = tarefas.filter((tarefa: Tarefa) =>
-        //tarefa.nome.toLowerCase().includes(filtro.toLowerCase()));
-        tarefa.nome.toLowerCase().startsWith(filtro.toLowerCase()));
-    }
+    tarefas = this.filtrar(tarefas, filtro);
     //ordenação
     if (ordem === Ordenacao.ASC) {
       tarefas.sort((t1: Tarefa, t2: Tarefa) => t1.nome.localeCompare(t2.nome));
@@ -91,10 +87,19 @@ export class TarefaService {
     this.persistir(tarefas);
   }
 
-  numeroPaginas() {
-    return Math.ceil(this.listarTodos().length / this.TOTAL_ELEM_PAG);
+  numeroPaginas(filtro: string) {
+    const tarefas = this.filtrar(this.listarTodos(), filtro);
+    return Math.ceil(tarefas.length / this.TOTAL_ELEM_PAG);
   }
 
+
+  private filtrar(tarefas: Tarefa[], filtro: string): Tarefa[] {
+    if (filtro === '') {
+      return tarefas;
+    }
+    return tarefas.filter((tarefa: Tarefa) =>
+        tarefa.nome.toLowerCase().includes(filtro.toLowerCase()));
+  }
 
   private persistir(tarefas: Tarefa[]){
     localStorage['tarefas'] = JSON.stringify(tarefas);

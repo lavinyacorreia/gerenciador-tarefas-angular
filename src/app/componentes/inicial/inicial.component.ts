@@ -33,6 +33,7 @@ export class InicialComponent implements OnInit {
 
   remover() {
     this.tarefaService.remover(this.tarefa.id);
+    this.pagina = 0;
     this.carregarTarefas();
   }
 
@@ -61,7 +62,7 @@ export class InicialComponent implements OnInit {
   }
 
   numeroPaginas(){
-    return this.tarefaService.numeroPaginas();
+    return this.tarefaService.numeroPaginas(this.filtro);
   }
 
   obterPaginas() {
